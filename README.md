@@ -20,9 +20,9 @@ An application that provides a collection of Indonesian recipes from [Masak Apa 
 * [Retrofit](https://square.github.io/retrofit/)
 * [Kotlin Coroutines](https://github.com/Kotlin/kotlinx.coroutines)
 ## Screenshots
-<img src="https://user-images.githubusercontent.com/43863694/116824684-b344e880-abb5-11eb-9540-bd4d76bab9f3.png?raw=true" 
+<img src="https://user-images.githubusercontent.com/43863694/117040905-9682ef00-ad34-11eb-95ad-aefdb681dfc2.png?raw=true" 
 width="300">
-<img src="https://user-images.githubusercontent.com/43863694/116824687-b8a23300-abb5-11eb-9eb6-10d2e1e44179.png?raw=true" 
+<img src="https://user-images.githubusercontent.com/43863694/117040929-9d116680-ad34-11eb-8533-aa762ee35186.png?raw=true" 
 width="300">
 ## Author
 Amwalul Ikhsani
