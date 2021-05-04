@@ -238,11 +238,13 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun setTitleFromCategory() {
         val selectedCategory = categoryAdapter.getSelectedCategory()
-        binding?.tvTitle?.text = selectedCategory?.category
+        selectedCategory?.let {
+            viewModel.setPageTitle(it.category)
+        }
     }
 
     private fun setTitleFromQuery(query: String) {
-        binding?.tvTitle?.text = query
+        viewModel.setPageTitle(query)
     }
 
     private fun showDeleteAllHistoriesAlert() {
@@ -394,6 +396,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         viewModel.historyList.observe(viewLifecycleOwner, {
             searchHistoryAdapter.submitList(it.reversed())
+        })
+
+        viewModel.pageTitle.observe(viewLifecycleOwner, {
+            binding?.tvTitle?.text = it
         })
     }
 

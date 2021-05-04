@@ -19,11 +19,18 @@ class MainViewModel @Inject constructor(
         CATEGORY, QUERY
     }
 
-    val categoryList = MediatorLiveData<Resource<List<Category>>>()
+    private val _pageTitle = MutableLiveData<String>()
+    val pageTitle: LiveData<String> = _pageTitle
+
+    private val _categoryList = MediatorLiveData<Resource<List<Category>>>()
+
+    val categoryList: LiveData<Resource<List<Category>>> = _categoryList
 
     private var categoryListSource: LiveData<Resource<List<Category>>>? = null
 
-    val recipeList = MediatorLiveData<Resource<List<Recipe>>>()
+    private val _recipeList = MediatorLiveData<Resource<List<Recipe>>>()
+
+    val recipeList: LiveData<Resource<List<Recipe>>> = _recipeList
 
     val favoriteList = recipeUseCase.getFavoriteRecipes().asLiveData()
 
@@ -49,17 +56,17 @@ class MainViewModel @Inject constructor(
 
     init {
         categoryListSource = recipeUseCase.getCategories().asLiveData()
-        categoryList.addSource(categoryListSource!!) {
-            categoryList.value = it
+        _categoryList.addSource(categoryListSource!!) {
+            _categoryList.value = it
         }
 
-        recipeList.addSource(recipeListByCategory) {
-            recipeList.value = it
+        _recipeList.addSource(recipeListByCategory) {
+            _recipeList.value = it
             lastSource = Source.CATEGORY
         }
 
-        recipeList.addSource(recipeListByQuery) {
-            recipeList.value = it
+        _recipeList.addSource(recipeListByQuery) {
+            _recipeList.value = it
             lastSource = Source.QUERY
         }
     }
@@ -94,12 +101,16 @@ class MainViewModel @Inject constructor(
 
     fun refreshCategoryList() {
         categoryListSource = recipeUseCase.getCategories().asLiveData()
-        categoryList.addSource(categoryListSource!!) {
-            categoryList.value = it
+        _categoryList.addSource(categoryListSource!!) {
+            _categoryList.value = it
         }
     }
 
     fun removeCategoryListSource() {
-        categoryListSource?.let { categoryList.removeSource(it) }
+        categoryListSource?.let { _categoryList.removeSource(it) }
+    }
+
+    fun setPageTitle(title: String) {
+        _pageTitle.value = title
     }
 }
