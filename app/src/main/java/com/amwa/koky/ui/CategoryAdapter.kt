@@ -16,7 +16,7 @@ class CategoryAdapter(
     private val interaction: Interaction
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var selectedCategory = "new"
+    private var selectedCategoryKey = "new"
 
     private val differ = AsyncListDiffer(this, object : DiffUtil.ItemCallback<Category>() {
         override fun areItemsTheSame(
@@ -30,10 +30,12 @@ class CategoryAdapter(
         ): Boolean = oldItem == newItem
     })
 
-    fun setCategory(key: String) {
-        selectedCategory = key
+    fun setCategoryKey(key: String) {
+        selectedCategoryKey = key
         notifyDataSetChanged()
     }
+
+    fun getSelectedCategory() = differ.currentList.find { it.key == selectedCategoryKey }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
@@ -80,7 +82,7 @@ class CategoryAdapter(
                 interaction.onItemSelected(item)
             }
 
-            if (item.key == selectedCategory) {
+            if (item.key == selectedCategoryKey) {
                 root.typeface = boldTypeface
             } else {
                 root.typeface = normalTypeface

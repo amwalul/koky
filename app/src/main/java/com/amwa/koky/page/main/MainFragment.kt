@@ -66,6 +66,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             override fun onItemSelected(item: Category) {
                 setCategory(item.key)
                 binding?.btnMenu?.isChecked = false
+
+                setTitleFromCategory()
             }
         }
     }
@@ -109,11 +111,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun setCategory(key: String) {
         viewModel.setCategory(key)
-        categoryAdapter.setCategory(key)
+        categoryAdapter.setCategoryKey(key)
     }
 
     private fun setEmptyCategory() {
-        categoryAdapter.setCategory("")
+        categoryAdapter.setCategoryKey("")
     }
 
     private fun initAnimations() {
@@ -230,6 +232,17 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         sheetSearch.state = BottomSheetBehavior.STATE_HIDDEN
 
         setEmptyCategory()
+
+        setTitleFromQuery(query)
+    }
+
+    private fun setTitleFromCategory() {
+        val selectedCategory = categoryAdapter.getSelectedCategory()
+        binding?.tvTitle?.text = selectedCategory?.category
+    }
+
+    private fun setTitleFromQuery(query: String) {
+        binding?.tvTitle?.text = query
     }
 
     private fun showDeleteAllHistoriesAlert() {
@@ -360,6 +373,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     showCategoryProgress(false)
                     categoryAdapter.submitList(resource.data!!)
                     viewModel.removeCategoryListSource()
+
+                    setTitleFromCategory()
                 }
                 Loading -> {
                     showCategoryProgress(true)
